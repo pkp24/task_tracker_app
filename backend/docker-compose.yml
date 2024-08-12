@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: task_tracker_web
+    command: flask run --host=0.0.0.0 --port=1532 --reload
+    volumes:
+      - ./app:/usr/src/app/app
+      - ./config.py:/usr/src/app/config.py
+      - ./requirements.txt:/usr/src/app/requirements.txt
+    ports:
+      - "1532:1532"
+    environment:
+      - FLASK_APP=app
+      - FLASK_ENV=development
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=192.168.86.133  # Your external PostgreSQL host
+      - DB_PORT=5432
+      - DB_NAME=tasktracker
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: task_tracker_frontend
+    volumes:
+      - ../frontend/src:/usr/src/app/src
+      - ../frontend/public:/usr/src/app/public
+    ports:
+      - "1533:1533"
+    environment:
+      - REACT_APP_BACKEND_URL=http://localhost:1532
+      - CHOKIDAR_USEPOLLING=true  # Necessary on some systems for file watching
+      - PORT=1533

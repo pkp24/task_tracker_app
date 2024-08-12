@@ -1,0 +1,5 @@
+# Ignore specific files
+backend/password.txt
+
+# Ignore all files in a directory
+backend/app/__pycache__
