@@ -68,7 +68,7 @@ const CreateTaskModal = ({ isOpen, onClose, onSuccess }) => {
                         value={dueDate}
                         onChange={(e) => setDueDate(e.target.value)}
                     />
-
+                    <div/>
                     <label htmlFor="time_of_day">Time of Day:</label>
                     <input
                         type="time"
